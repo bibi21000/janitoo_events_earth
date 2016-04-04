@@ -40,7 +40,7 @@ except ImportError:                                   # pragma: no cover
         """NullHandler logger for python 2.6"""       # pragma: no cover
         def emit(self, record):                       # pragma: no cover
             pass                                      # pragma: no cover
-logger = logging.getLogger( __name__ )
+logger = logging.getLogger(__name__)
 
 import os, sys
 import threading
@@ -337,7 +337,7 @@ except ImportError:                                   # pragma: no cover
         """NullHandler logger for python 2.6"""       # pragma: no cover
         def emit(self, record):                       # pragma: no cover
             pass                                      # pragma: no cover
-logger = logging.getLogger("janitoo.buses.onewire")
+logger = logging.getLogger(__name__)
 from janitoo.bus import JNTBus
 from janitoo.value import JNTValue, value_config_poll
 from janitoo.node import JNTNode
@@ -357,7 +357,7 @@ assert(COMMAND_DESC[COMMAND_METER] == 'COMMAND_METER')
 assert(COMMAND_DESC[COMMAND_CONFIGURATION] == 'COMMAND_CONFIGURATION')
 ##############################################################
 
-def make_component(**kwargs):
+def make_dawndusk(**kwargs):
     return DawnDusk(**kwargs)
 
 class DawnDusk(JNTComponent):
@@ -373,98 +373,5 @@ class DawnDusk(JNTComponent):
             addr:
                 the 1-Wire device address (in 7 bits format)
         """
-        JNTComponent.__init__(self, 'onewire.ds18b20', bus=bus, addr=addr, name="DS18B20 range sensor", **kwargs)
-        uuid = '%s_%s'%('ds18b20','c')
-        value = JNTValue( uuid=uuid,
-                help='The temperature',
-                label='Temp',
-                units='°C',
-                index=0,
-                cmd_class=COMMAND_METER,
-                genre=0x02,
-                type=0x03,
-                get_data_cb=self.read_temp_c,
-                is_writeonly=False,
-                is_polled=True,
-                poll_delay=300,
-                )
-        self.values[uuid] = value
-        uuid = '%s_%s'%('ds18b20','c_poll')
-        value = value_config_poll( uuid, self.poll_tempc_get, self.poll_tempc_set)
-        self.values[uuid] = value
-        uuid = '%s_%s'%('ds18b20','f')
-        value = JNTValue( uuid=uuid,
-                help='The temperature',
-                label='Temp',
-                units='°F',
-                index=0,
-                cmd_class=COMMAND_METER,
-                genre=0x02,
-                type=0x03,
-                get_data_cb=self.read_temp_f,
-                is_writeonly=False,
-                is_polled=False,
-                poll_delay=300,
-                )
-        self.values[uuid] = value
-        uuid = '%s_%s'%('ds18b20','f_poll')
-        value = value_config_poll( uuid, self.poll_tempf_get, self.poll_tempf_set, default=0)
-        self.values[uuid] = value
-        self.cmd_classes.append(COMMAND_METER)
-        self.cmd_classes.append(COMMAND_CONFIGURATION)
+        JNTComponent.__init__(self, 'events.dawndusk', bus=bus, addr=addr, name="Dawn/Dusk", **kwargs)
 
-    def read_temp_raw(self):
-        """
-        """
-        lines = None
-        try:
-            f = open(os.path.join(self._bus.bus_path, self._addr, 'w1_slave'), 'r')
-            lines = f.readlines()
-            f.close()
-        except:
-            logger.exception('Exception when reading temperature')
-        return lines
-
-    def read_temp_c(self, node_uuid, index):
-        """
-        """
-        lines = self.read_temp_raw()
-        if lines is None:
-            return None
-        while lines[0].strip()[-3:] != 'YES':
-            time.sleep(0.2)
-            lines = read_temp_raw()
-        equals_pos = lines[1].find('t=')
-        if equals_pos != -1:
-            temp_string = lines[1][equals_pos+2:]
-            temp_c = float(temp_string) / 1000.0
-            return temp_c
-
-    def read_temp_f(self, node_uuid, index):
-        """
-        """
-        temp_c = self.read_temp_c(node_uuid, index)
-        if temp_c is None:
-            return None
-        temp_f = temp_c * 9.0 / 5.0 + 32.0
-        return temp_f
-
-    def poll_tempf_get(self, node_uuid, index):
-        """
-        """
-        return self.value_poll_get(node_uuid, index, '%s_%s'%('ds18b20','f'))
-
-    def poll_tempf_set(self, node_uuid, index, value):
-        """
-        """
-        self.value_poll_set(node_uuid, index, value, '%s_%s'%('ds18b20','f'))
-
-    def poll_tempc_get(self, node_uuid, index):
-        """
-        """
-        return self.value_poll_get(node_uuid, index,'%s_%s'%('ds18b20','c'))
-
-    def poll_tempc_set(self, node_uuid, index, value):
-        """
-        """
-        self.value_poll_set(node_uuid, index, value, '%s_%s'%('ds18b20','c'))

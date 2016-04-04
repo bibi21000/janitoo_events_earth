@@ -1,3 +1,6 @@
+[events.extensions]
+earth = janitoo_events_earth.bus:extend
+
 [janitoo.components]
-events.dawndusk = janitoo_events_earth.component:make_component
+events.dawndusk = janitoo_events_earth.component:make_dawndusk
 
