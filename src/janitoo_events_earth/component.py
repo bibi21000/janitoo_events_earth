@@ -328,22 +328,16 @@ __author__ = 'Sébastien GALLET aka bibi21000'
 __email__ = 'bibi21000@gmail.com'
 __copyright__ = "Copyright © 2013-2014-2015-2016 Sébastien GALLET aka bibi21000"
 
-# Set default logging handler to avoid "No handler found" warnings.
+import os
+import time
+
 import logging
-try:  # Python 2.7+                                   # pragma: no cover
-    from logging import NullHandler                   # pragma: no cover
-except ImportError:                                   # pragma: no cover
-    class NullHandler(logging.Handler):               # pragma: no cover
-        """NullHandler logger for python 2.6"""       # pragma: no cover
-        def emit(self, record):                       # pragma: no cover
-            pass                                      # pragma: no cover
 logger = logging.getLogger(__name__)
+
 from janitoo.bus import JNTBus
 from janitoo.value import JNTValue, value_config_poll
 from janitoo.node import JNTNode
 from janitoo.component import JNTComponent
-import os
-import time
 
 ##############################################################
 #Check that we are in sync with the official command classes
@@ -365,13 +359,6 @@ class DawnDusk(JNTComponent):
 
     def __init__(self, bus=None, addr=None, lock=None, unit="°C", **kwargs):
         """ Constructor.
-
-        Arguments:
-            bus:
-                a 1-Wire instance representing the bus this device is
-                connected to
-            addr:
-                the 1-Wire device address (in 7 bits format)
         """
         JNTComponent.__init__(self, 'events.dawndusk', bus=bus, addr=addr, name="Dawn/Dusk", **kwargs)
 
