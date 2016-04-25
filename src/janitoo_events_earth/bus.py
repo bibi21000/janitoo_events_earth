@@ -60,7 +60,8 @@ assert(COMMAND_DESC[COMMAND_CONFIGURATION] == 'COMMAND_CONFIGURATION')
 def extend( self ):
     #~ pass
 
-    self._events_earth = None
+    self.events_earth = None
+    self.export_attrs('events_earth', self.events_earth)
 
     self._events_earth_start = self.start
     def start(mqttc, trigger_thread_reload_cb=None):
@@ -69,6 +70,7 @@ def extend( self ):
         ret = self._events_earth_start(mqttc, trigger_thread_reload_cb=trigger_thread_reload_cb)
         #~ self._events_earth = BackgroundScheduler()
         #~ self._events_earth.start()
+        self.update_attrs('events_earth', self.events_earth)
         return ret
     self.start = start
 
@@ -79,6 +81,7 @@ def extend( self ):
         #~ self._events_earth.shutdown()
         ret = self._events_earth_stop()
         #~ self._events_earth = None
+        self.update_attrs('events_earth', self.events_earth)
         return ret
     self.stop=stop
 
