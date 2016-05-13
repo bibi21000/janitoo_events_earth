@@ -1,0 +1,18 @@
+janitoo_events_earth package
+============================
+
+Show janitoo's extensions.
+
+Core extensions
+---------------
+
+Components
+^^^^^^^^^^
+
+ - events.dawndusk (janitoo_events_earth.component:make_dawndusk)
+
+Bus extensions 
+^^^^^^^^^^^^^^^
+
+ - ('events', 'earth') (janitoo_events_earth.bus:extend)
+

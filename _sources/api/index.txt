@@ -1,0 +1,30 @@
+janitoo_events_earth package
+============================
+
+Submodules
+----------
+
+janitoo_events_earth.bus module
+-------------------------------
+
+.. automodule:: janitoo_events_earth.bus
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+janitoo_events_earth.component module
+-------------------------------------
+
+.. automodule:: janitoo_events_earth.component
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: janitoo_events_earth
+    :members:
+    :undoc-members:
+    :show-inheritance:
