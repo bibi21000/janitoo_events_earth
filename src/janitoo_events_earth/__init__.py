@@ -23,7 +23,7 @@ __email__ = 'bibi21000@gmail.com'
 
 try:
     __import__('pkg_resources').declare_namespace(__name__)
-except:  # pragma: no cover
+except Exception:  # pragma: no cover
     # bootstrapping
     pass # pragma: no cover
 
