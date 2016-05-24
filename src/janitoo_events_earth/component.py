@@ -35,7 +35,6 @@ from janitoo.bus import JNTBus
 from janitoo.value import JNTValue, value_config_poll
 from janitoo.node import JNTNode
 from janitoo.component import JNTComponent
-from janitoo_events.thread import OID
 
 ##############################################################
 #Check that we are in sync with the official command classes
@@ -48,6 +47,8 @@ COMMAND_CONFIGURATION = 0x0070
 assert(COMMAND_DESC[COMMAND_METER] == 'COMMAND_METER')
 assert(COMMAND_DESC[COMMAND_CONFIGURATION] == 'COMMAND_CONFIGURATION')
 ##############################################################
+
+from janitoo_events import OID
 
 def make_dawndusk(**kwargs):
     return DawnDusk(**kwargs)
